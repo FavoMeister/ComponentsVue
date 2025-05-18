@@ -1,5 +1,6 @@
 <script setup lang="ts">
 //import type { PropType } from 'vue';
+import type { Curso } from '@/types/types';
 
 //const props = defineProps(['nombre', 'precio', 'categoría', 'enInventario']);
 /*const props = defineProps({
@@ -9,12 +10,12 @@
     enInventario: Boolean,
 });*/
 
-type Curso = {
+/*type Curso = {
     nombre: string,
     precio: number,
     categoria: string,
     enInventario: boolean,
-}
+}*/
 
 /*const props = defineProps({
     curso: {
@@ -37,6 +38,12 @@ type PropType = {
 
 const props = withDefaults(defineProps<PropType>(), { estaActivo: true });
 
+const emit = defineEmits<{
+    (e: 'seleccionar-curso', curso:Curso): void
+}>();
+
+const seleccionar = (curso: Curso) => emit('seleccionar-curso', curso); //method
+
 </script>
 
 <template>
@@ -50,7 +57,14 @@ const props = withDefaults(defineProps<PropType>(), { estaActivo: true });
     <div class="card-body">
         <h5 class="cart-title">{{ curso.precio }}</h5>
         <p class="card-text">{{ curso.categoria }}</p>
-        <div class="alert alert-info">{{ curso.enInventario? 'En Inventario' : 'Sin Existencia' }}</div>
+        <div class="alert alert-info">
+            {{ curso.enInventario? 'En Inventario' : 'Sin Existencia' }}
+        </div>
+    </div>
+    <div class="card-footer">
+        <button class="btn btn-primary" @click="seleccionar(curso)">
+            Seleccionar
+        </button>
     </div>
     <div class="card">
         <div class="alert alert-warning">
